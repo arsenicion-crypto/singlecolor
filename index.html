@@ -1,11 +1,34 @@
-<!doctype html><html lang="ja"><head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-<meta name="theme-color" content="#000000"><link rel="manifest" href="manifest.webmanifest"><title>単色表示</title>
-<style>html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#000}#screen{position:fixed;inset:0;background:#000}#panel{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:#222d;color:#fff;border-radius:18px;padding:12px;font-family:system-ui;display:flex;gap:8px;align-items:center}input{width:58px;height:44px;border:0}button{border:0;border-radius:11px;padding:11px 14px;font-size:15px}#show{display:none;position:fixed;right:14px;bottom:18px;border-radius:50%;width:48px;height:48px;background:#000b;color:#fff;border:0;font-size:22px}</style></head>
-<body><div id="screen"></div><div id="panel"><input id="color" type="color" value="#000000"><button id="hide">操作を隠す</button></div><button id="show">🎨</button>
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0000ff">
+<link rel="manifest" href="./manifest.webmanifest">
+<title>単色ライト</title>
+<style>
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0000ff}
+body{display:flex;align-items:flex-end;justify-content:center}
+#controls{margin:0 0 24px;padding:14px 20px;background:#222;border-radius:40px;display:flex;gap:14px;align-items:center}
+#color{width:90px;height:58px;border:0;background:none;padding:0}
+button{font-size:18px;padding:14px 24px;border:0;border-radius:28px}
+#show{display:none;position:fixed;right:16px;bottom:16px;font-size:28px;padding:10px 14px;background:#222;color:white}
+</style>
+</head>
+<body>
+<div id="controls">
+<input id="color" type="color" value="#0000ff" aria-label="色を選択">
+<button id="hide">操作を隠す</button>
+</div>
+<button id="show" aria-label="操作を表示">🎨</button>
 <script>
-const s=document.querySelector("#screen"),p=document.querySelector("#panel"),sh=document.querySelector("#show"),c=document.querySelector("#color");
-function set(v){s.style.background=v;document.querySelector('meta[name="theme-color"]').content=v}
-c.oninput=e=>set(e.target.value);document.querySelector("#hide").onclick=()=>{p.style.display="none";sh.style.display="block"};sh.onclick=()=>{p.style.display="flex";sh.style.display="none"};set(c.value);
-if("serviceWorker"in navigator)navigator.serviceWorker.register("./sw.js");
-</script></body></html>
+const color=document.getElementById('color'), controls=document.getElementById('controls'), hide=document.getElementById('hide'), show=document.getElementById('show');
+function setColor(){document.body.style.background=color.value;document.documentElement.style.background=color.value}
+color.addEventListener('input',setColor);
+hide.onclick=()=>{controls.style.display='none';show.style.display='block'};
+show.onclick=()=>{controls.style.display='flex';show.style.display='none'};
+setColor();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('./sw.js');
+</script>
+</body>
+</html>
